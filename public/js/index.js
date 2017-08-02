@@ -4,13 +4,6 @@
       console.log('Connected to server');
     });
 
-
-
-    socket.emit('createMessage',{
-        to:'new saif',
-        text:'from message'
-    });
-
     socket.on('disconnect',function ()  {
       console.log('Disconnected from server');
     });
