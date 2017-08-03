@@ -29,12 +29,15 @@
 
     jQuery('#message-form').on('submit',function(e){
         e.preventDefault();
+
+        var messageTextBox=jQuery('[name=message]');
         
         socket.emit('createMessage',{
             from:'user',
-            text:jQuery('[name=message]').val()
+            text:messageTextBox.val()
 
         },function(){
+            messageTextBox.val('')
 
         })
     })
@@ -46,15 +49,17 @@
         if(!navigator.geolocation){
             return alert("Your brouser does not support geolocation");
         }
+        locationButton.attr('disabled','disabled').text('Sending Location..');
         navigator.geolocation.getCurrentPosition(function(position){
 
-         
+         locationButton.removeAttr('disabled').text('Send Location');
            socket.emit('createLocation',{
                longitude: position.coords.longitude,
                latitude: position.coords.latitude
            
             },function(){
-            alert("unable to fetch the location");
+                locationButton.attr('disabled','disabled');
+            alert("Unable to fetch the location");
         })
         
         })
